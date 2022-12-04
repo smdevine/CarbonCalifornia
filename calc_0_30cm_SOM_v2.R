@@ -207,6 +207,7 @@ sum(is.na(comp_SOM_30cm$SOM_30cm)) #1756
 sum(!is.na(comp_SOM_30cm$kgOrg.m2_30cm) & comp_SOM_30cm$soil_depth > 30 & comp_SOM_30cm$SOM_depth < 30) #1346
 problematic_cokeys_v2 <- comp_SOM_30cm[!is.na(comp_SOM_30cm$kgOrg.m2_30cm) & comp_SOM_30cm$soil_depth > 30 & comp_SOM_30cm$SOM_depth < 30,]
 sum(problematic_cokeys_v2$cokey %in% problematic_cokeys$cokey)
+all(problematic_cokeys_v2$cokey %in% problematic_cokeys$cokey)
 
 problematic_horizons_v2 <- horizon_data_majcomps[horizon_data_majcomps$cokey %in% problematic_cokeys_v2$cokey,]
 unique(problematic_horizons_v2$hzname)
@@ -229,8 +230,9 @@ length(unique(problematic_cokeys_H123_all$cokey))
 
 #read in restriction data
 list.files(SSURGOdir)
-reskind_df <- read.csv(file.path(SSURGOdir, 'problematic_cokeys_H123_2_24_22_v2.csv'), stringsAsFactors = FALSE, na.strings = c('', ' '))
+reskind_df <- read.csv(file.path(SSURGOdir, 'prob_cokeys_restr_2_24_22.csv'), stringsAsFactors = FALSE, na.strings = c('', ' '))
 dim(reskind_df)
+table(problematic_cokeys_v2$cokey %in% reskind_df$cokey)
 unique(reskind_df$reskind)
 reskind_df <- reskind_df[which(reskind_df$reskind != 'Abrupt textural change'),] #this gets rid of NAs also
 length(unique(reskind_df$cokey)) #791
